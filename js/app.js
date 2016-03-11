@@ -1,1 +1,1 @@
-var myApp = angular.module('NYCDOHChromeEx', ['ui.router']);
+var myApp = angular.module('NYCDOHChromeEx', []);

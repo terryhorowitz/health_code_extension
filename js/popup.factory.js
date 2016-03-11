@@ -30,6 +30,7 @@ myApp.factory('DOHFactory', function ($http){
       chrome.tabs.query({'active': true, lastFocusedWindow: true},
       function (tabs) {
         //need to check first if url is for yelp!!!
+        console.log(tabs[0])
         resolve(tabs[0].url)
       })
     });
