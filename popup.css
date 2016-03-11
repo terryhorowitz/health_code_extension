@@ -1,0 +1,57 @@
+  font-family: Helvetica, sans-serif;
+}
+
+#popup {
+  font-family: 'Alegreya SC', serif;
+  margin: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#more {
+  font-family: 'Alegreya SC', serif;
+  font-size: 15px;
+  padding-left: 25%;
+}
+
+.outer {
+  border-radius: 2px;
+  border-color: black;
+  width: 236px;
+  height: 300px;
+}
+
+#mouse {
+  float: left;
+  position: fixed;
+  height: 200px;
+  padding-top: 50px;
+}
+
+#loading-wheel {
+  float: left;
+  position: absolute;
+  padding-left: 112px;
+  padding-top: 108px;
+  height: 35px;
+}
+
+#result {
+  height: 300px;
+  padding-top: 15px;
+}
+
+#details {
+  font-family: 'Alegreya SC', serif;
+  list-style: none;
+}
+
+.item {
+  font-size: 16px;
+}
+
+.detail {
+  font-size: 13px;
+}
