@@ -1,5 +1,5 @@
 
-myApp.controller("PageController", function ($scope, DOHFactory, $state, $log) {
+myApp.controller("PageController", function ($scope, DOHFactory, $log) {
   
   $scope.details=false
   $scope.loading = true;
@@ -17,7 +17,6 @@ myApp.controller("PageController", function ($scope, DOHFactory, $state, $log) {
         
         if (restaurantMatches.length === 0){
           $scope.noResultsFound = true;
-          $state.go('not-found');
           
         } else {
           $scope.gradeDisplayed = true;
