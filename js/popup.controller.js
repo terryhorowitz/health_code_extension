@@ -37,7 +37,6 @@ myApp.controller("PageController", function ($scope, DOHFactory) {
     })
     .then(function(restaurantMatches){
       changeDateFormat(restaurantMatches);
-      
       $scope.loading = false;
       $scope.allRecords = restaurantMatches;
 
