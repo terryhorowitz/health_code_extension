@@ -3,8 +3,8 @@ myApp.factory('DOHFactory', function ($http){
   var r = new Range();
   var queryStr, code, phone, zip, name, buildingNum;
   
-  //try three different combinations for search query because 
-  //results can be hard to match with DOH database
+  //try all combinations for search query. 
+  //Results can be hard to match with DOH database-
   DOHFactory.accessRecords = function (query) {
     queryStr = 'https://data.cityofnewyork.us/resource/xx67-kt59.json' + query[0] + query[1];
     return $http.get(queryStr, { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} })

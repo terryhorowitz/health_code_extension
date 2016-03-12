@@ -3,7 +3,7 @@
 <html ng-app="NYCDOHChromeEx" ng-csp>
   <head>
     <link rel="stylesheet" href="../popup.css">
-    <link href='https://fonts.googleapis.com/css?family=Alegreya+SC:700,400' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Alegreya+Sans+SC' rel='stylesheet' type='text/css'>
 
     <script src="../lib/angular.min.js"></script>
     <script src="../node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -12,6 +12,7 @@
     <script src="../js/app.js"></script>
     <script src="../js/popup.factory.js"></script>
     <script src="../js/popup.controller.js"></script>
+    <script src="../js/custom.date.filter.js"></script>
 </head>
 <body id="popup">
     <header>
@@ -42,10 +43,13 @@
           <div id="details" ng-show="details" ng-click="showHideDetails()">
             <li class="item">Name:</li>
             <li class="detail">{{ record.dba }}</li>
+            <br/>
             <li class="item">Grade:</li>
             <li class="detail">{{ record.grade }}</li>
+            <br/>
             <li class="item">Inspection Date:</li>
-            <li class="detail">{{ record.inspection_date }}</li>
+            <li class="detail">{{ date | date }}</li>
+            <br/>
             <li class="item">Violations:</li>
             <li class="detail">{{ record.violation_description }}</li>
           </div>

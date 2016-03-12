@@ -2,7 +2,7 @@
 }
 
 #popup {
-  font-family: 'Alegreya SC', serif;
+  font-family: 'Alegreya Sans SC', sans-serif;
   margin: 12px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -11,7 +11,7 @@
 }
 
 #more {
-  font-family: 'Alegreya SC', serif;
+  font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 15px;
   padding-left: 25%;
 }
@@ -44,7 +44,7 @@
 }
 
 #details {
-  font-family: 'Alegreya SC', serif;
+  font-family: 'Alegreya Sans SC', sans-serif;
   list-style: none;
 }
 

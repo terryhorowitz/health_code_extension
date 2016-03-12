@@ -21,7 +21,9 @@ myApp.controller("PageController", function ($scope, DOHFactory, $log) {
         } else {
           $scope.gradeDisplayed = true;
           $scope.record = restaurantMatches[0];
-          
+          $scope.date = new Date(restaurantMatches[0].inspection_date)
+          console.log(restaurantMatches[0])
+
           var letterGrade = restaurantMatches[0].grade.toLowerCase();
           var myEl = angular.element(document.querySelector('#results'));
           myEl.append('<img id="result" src="/../images/' + letterGrade + '-grade.jpg">');
