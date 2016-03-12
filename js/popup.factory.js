@@ -96,11 +96,11 @@ myApp.factory('DOHFactory', function ($http){
       //restuarant name
       dom.querySelector('.biz-page-title') ? name = dom.querySelector('.biz-page-title').innerText.trim().replace(/\s+/g, '%20').replace( apostrophe, '%27') : name = null;
       //restuarant building number
-      dom.querySelector('[itemprop=streetAddress]') ? buildingNum = dom.querySelector('[itemprop=streetAddress]').innerText.match(/\d+/g) : buildingNum = null;
+      dom.querySelector('[itemprop=streetAddress]') ? buildingNum = dom.querySelector('[itemprop=streetAddress]').innerText.match(/\d+/g) : buildingNum = [null];
       //restuarant phone number
       dom.querySelector('.biz-phone') ? phone = dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "") : phone = null;
       
-      return [zip, name, Number(buildingNum[0]), phone]
+      return [zip, name, Number(buildingNum[0]), phone];
     })
   }
 

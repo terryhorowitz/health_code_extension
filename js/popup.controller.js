@@ -40,5 +40,10 @@ myApp.controller("PageController", function ($scope, DOHFactory, $log) {
       var queryStr = ['zipcode=' + info[0], 'dba=' + info[1], 'building=' + info[2], 'phone=' + info[3]]
       $scope.findRestaurant = getDOHInfo(queryStr);
     });
+  
+  var result = document.getElementById('results');
+  result.addEventListener('mouseover', function(event){
+    result.append('<div id="more">click for details</div>')
+  })
     
 });

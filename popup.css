@@ -43,6 +43,10 @@
   padding-top: 15px;
 }
 
+#result:hover {
+  opacity: 0.2;
+}
+
 #details {
   font-family: 'Alegreya Sans SC', sans-serif;
   list-style: none;
@@ -54,4 +58,18 @@
 
 .detail {
   font-size: 13px;
+}
+
+#not-found {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 15px;
+}
+
+#not-found > img {
+  padding-left: 40px;
+  padding-top: 50px;
+}
+
+#not-found > div {
+  padding-left: 6px;
 }

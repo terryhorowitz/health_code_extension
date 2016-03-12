@@ -34,7 +34,7 @@
 <!--          grade             --> 
           <div id="results" ng-show="gradeDisplayed && !details" ng-click="showHideDetails()">{{findRestaurant()}}</div>
           <div>
-            <div id="more" ng-show="gradeDisplayed && !detailsDisplayed && !details" ng-click="showHideDetails()">click for details</div>
+<!--            <div id="more" ng-show="text" ng-click="showHideDetails()">click for details</div>-->
           </div>
           
           
@@ -59,8 +59,9 @@
           
           
           
-          <div id="not-found">
-            
+          <div id="not-found" ng-show="notFound">
+            <img src="/../images/not-found.png">
+            <div>restaurant information not found!</div>
           </div>
           
           
