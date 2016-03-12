@@ -8,6 +8,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  overflow: scroll;
 }
 
 [ng-click] { 
@@ -50,7 +51,7 @@
   opacity: 0.3;
 }
 
-#details {
+.details {
   font-family: 'Alegreya Sans SC', sans-serif;
   list-style: none;
 }
@@ -75,4 +76,8 @@
 
 #not-found > div {
   padding-left: 6px;
+}
+
+#go-back {
+  text-align: end;
 }
