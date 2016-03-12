@@ -1,5 +1,5 @@
 
-myApp.controller("PageController", function ($scope, DOHFactory) {
+myApp.controller("PageController", function ($scope, DOHFactory, $state) {
   var resultPage = angular.element(document.querySelector('#results'));
   
   //toggle different views
