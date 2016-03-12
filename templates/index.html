@@ -32,15 +32,17 @@
           
           
 <!--          grade             --> 
-          <div id="results" ng-show="gradeDisplayed && !details" ng-click="showHideDetails()">{{findRestaurant()}}</div>
+          <div id="results" ng-show="gradeDisplayed && !details" ng-click="showDetails()">{{findRestaurant()}}</div>
+<!--
           <div>
-<!--            <div id="more" ng-show="text" ng-click="showHideDetails()">click for details</div>-->
+            <div id="more" ng-show="gradeDisplayed && !details && !notFound" ng-click="showHideDetails()">click for details</div>
           </div>
+-->
           
           
           
 <!--          details             -->
-          <div id="details" ng-show="details" ng-click="showHideDetails()">
+          <div id="details" ng-show="details">
             <li class="item">Name:</li>
             <li class="detail">{{ record.dba }}</li>
             <br/>
