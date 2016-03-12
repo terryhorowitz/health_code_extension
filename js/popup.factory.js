@@ -35,27 +35,27 @@ myApp.factory('DOHFactory', function ($http){
     //combinations of two checked in order of likelihood of returning a correct match
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(0,1);
+        return checkCombinationOfTwo(query, 0,1);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(1,3);
+        return checkCombinationOfTwo(query, 1,3);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(1,2);
+        return checkCombinationOfTwo(query, 1,2);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(2,3);
+        return checkCombinationOfTwo(query, 2,3);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(0,3);
+        return checkCombinationOfTwo(query, 0,3);
       } else return records;
     })
     .then(function(records){
@@ -63,8 +63,9 @@ myApp.factory('DOHFactory', function ($http){
     });
   }
   
-  function checkCombinationOfTwo (param1, param2){
-    return $http.get(dbGet + query[param1] + '&' + query[param2], token);
+  function checkCombinationOfTwo (data, param1, param2){
+    if (!data[param1] || !data[param2]) {};
+    return $http.get(dbGet + data[param1] + '&' + data[param2], token);
   }
   
   var promiseForTabUrl = function () {

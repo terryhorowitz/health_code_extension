@@ -8,6 +8,7 @@ myApp.controller("PageController", function ($scope, DOHFactory, $log) {
       DOHFactory.accessRecords(searchParams)
       .then(function(restaurantMatches){
         //filter for records where grade was given
+        if (!restaurantMatches.length) return notFound();
         return restaurantMatches.filter(function(e){
           return e.grade;
         });
@@ -15,19 +16,19 @@ myApp.controller("PageController", function ($scope, DOHFactory, $log) {
       .then(function(restaurantMatches){
         $scope.loading = false;
         
-        if (restaurantMatches.length === 0){
-          $scope.noResultsFound = true;
-          
-        } else {
-          $scope.gradeDisplayed = true;
-          $scope.record = restaurantMatches[0];
-          $scope.date = new Date(restaurantMatches[0].inspection_date)
+        $scope.gradeDisplayed = true;
+        $scope.record = restaurantMatches[0];
+        $scope.date = new Date(restaurantMatches[0].inspection_date)
 
-          var letterGrade = restaurantMatches[0].grade.toLowerCase();
-          var myEl = angular.element(document.querySelector('#results'));
-          myEl.append('<img id="result" src="/../images/' + letterGrade + '-grade.jpg">');
-        }
+        var letterGrade = restaurantMatches[0].grade.toLowerCase();
+        var myEl = angular.element(document.querySelector('#results'));
+        myEl.append('<img id="result" src="/../images/' + letterGrade + '-grade.jpg">');
       });
+    }
+    
+    function notFound () {
+      $scope.loading = false;
+      $scope.notFound = true;
     }
     
     $scope.showHideDetails = function () {
