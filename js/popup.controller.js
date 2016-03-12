@@ -22,13 +22,12 @@ myApp.controller("PageController", function ($scope, DOHFactory, $log) {
           $scope.gradeDisplayed = true;
           $scope.record = restaurantMatches[0];
           $scope.date = new Date(restaurantMatches[0].inspection_date)
-          console.log(restaurantMatches[0])
 
           var letterGrade = restaurantMatches[0].grade.toLowerCase();
           var myEl = angular.element(document.querySelector('#results'));
           myEl.append('<img id="result" src="/../images/' + letterGrade + '-grade.jpg">');
         }
-      }).catch($log.error)
+      });
     }
     
     $scope.showHideDetails = function () {
@@ -37,8 +36,8 @@ myApp.controller("PageController", function ($scope, DOHFactory, $log) {
     
     DOHFactory.getRestaurantDetails()
     .then(function(info){
-      var queryStr = ['?zipcode=' + info[0], '&dba=' + info[1], '&building=' + info[2], '&phone=' + info[3]]
+      var queryStr = ['zipcode=' + info[0], 'dba=' + info[1], 'building=' + info[2], 'phone=' + info[3]]
       $scope.findRestaurant = getDOHInfo(queryStr);
-    }).catch($log.error);
+    });
     
 });
