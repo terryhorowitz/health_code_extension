@@ -33,34 +33,40 @@
           
 <!--          grade             --> 
           <div id="results" ng-show="gradeDisplayed && !details" ng-click="showDetails()">{{findRestaurant()}}</div>
-<!--
-          <div>
-            <div id="more" ng-show="gradeDisplayed && !details && !notFound" ng-click="showHideDetails()">click for details</div>
-          </div>
--->
           
           
           
 <!--          details             -->
-          <div id="details" ng-show="details">
+          <div class="details" ng-show="details && !history">
             <li class="item">Name:</li>
-            <li class="detail">{{ record.dba }}</li>
+            <li class="detail">{{ allRecords[0].dba }}</li>
             <br/>
             <li class="item">Grade:</li>
-            <li class="detail">{{ record.grade }}</li>
+            <li class="detail">{{ allRecords[0].grade }}</li>
             <br/>
             <li class="item">Inspection Date:</li>
-            <li class="detail">{{ date | date }}</li>
+            <li class="detail">{{ allRecords[0].grade_date |  date }}</li>
             <br/>
             <li class="item">Violations:</li>
-            <li class="detail">{{ record.violation_description }}</li>
+            <li class="detail">{{ allRecords[0].violation_description }}</li>
+            <br/>
+            <br/>
+            <li class="item" ng-click="getHistory()">Show Inspection History</li>
+          </div>
+          
+          
+<!--          History             -->
+          <div id="history" class="details" ng-show="history">
+            <div ng-repeat="record in allRecords">
+              <li class="detail">Date: {{ record.grade_date | date }}</li>
+              <li class="item">Grade: {{ record.grade }}</li>
+              <br/>
+            </div>
+            <li id="go-back" class="item" ng-click="showDetails()">back</li>
           </div>
           
           
 <!--          not found             -->
-          
-          
-          
           <div id="not-found" ng-show="notFound">
             <img src="/../images/not-found.png">
             <div>restaurant information not found!</div>
