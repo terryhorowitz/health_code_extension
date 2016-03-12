@@ -2,23 +2,7 @@
 myApp.controller("PageController", function ($scope, DOHFactory, $state) {
   var resultPage = angular.element(document.querySelector('#results'));
   
-  //toggle different views
   $scope.loading = true;
-  
-  function notFound () {
-    $scope.loading = false;
-    $scope.notFound = true;
-  }
-
-  $scope.showDetails = function () {
-    $scope.history=false;
-    $scope.details = true;
-  }
-  
-  $scope.getHistory = function (){
-    $scope.history = true;
-  }
-  
   //retrieve data
   DOHFactory.getRestaurantDetails()
   .then(function(info){
@@ -30,15 +14,18 @@ myApp.controller("PageController", function ($scope, DOHFactory, $state) {
     DOHFactory.accessRecords(searchParams)
     .then(function(restaurantMatches){
       //filter for records where grade was given
-      if (!restaurantMatches.length) return notFound();
+      if (!restaurantMatches.length){
+        $state.go('notfound');
+        return [];
+      }
       return restaurantMatches.filter(function(e){
         return e.grade;
       });
     })
     .then(function(restaurantMatches){
       changeDateFormat(restaurantMatches);
-      $scope.loading = false;
       $scope.allRecords = restaurantMatches;
+      $scope.loading=false;
 
       $scope.gradeDisplayed = true;
 
