@@ -1,14 +1,21 @@
 myApp.factory('DOHFactory', function ($http){
   var DOHFactory = {};
+  var resultCache = [];
   var r = new Range();
   var dbGet = 'https://data.cityofnewyork.us/resource/xx67-kt59.json?';
   var token = { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} };
   var queryStr, apostrophe, phone, zip, name, buildingNum;
   
+  function changeDateFormat(array){
+    array.forEach(function(e){
+      e.grade_date = new Date(e.grade_date);
+    })
+  }
+  
   //try all combinations for search query. 
   //Results can be hard to match with DOH database-
   DOHFactory.accessRecords = function(query){
-    //first check if there is a match with all data
+    //first check if there is a match with all retrieved data
     queryStr = dbGet + query.join('&');
     return $http.get(queryStr, token)
     .then(function(records){
@@ -59,7 +66,12 @@ myApp.factory('DOHFactory', function ($http){
       } else return records;
     })
     .then(function(records){
-      return records.data;
+      matches = records.data.filter(function(e){
+        return e.grade;
+      });
+      changeDateFormat(matches);
+      resultCache = angular.copy(matches);
+      return matches;
     });
   }
   
@@ -102,6 +114,10 @@ myApp.factory('DOHFactory', function ($http){
       
       return [zip, name, Number(buildingNum[0]), phone];
     })
+  }
+  
+  DOHFactory.getCache = function () {
+    return resultCache;
   }
 
   return DOHFactory

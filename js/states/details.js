@@ -1,8 +1,10 @@
-myApp.config(function($stateProvider, $urlRouterProvider) {
+myApp.config(function($stateProvider) {
   $stateProvider
     .state('details', {
       url: "/details",
-      controller: "PageController",
+      controller: function (DOHFactory, $scope) {
+        $scope.records = DOHFactory.getCache()
+      },
       templateUrl: "../../templates/details.html"
     })
 });
