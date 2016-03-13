@@ -18,7 +18,7 @@ myApp.factory('UtilsFactory', function ($http, $q){
     return $q(function (resolve, reject) {
       chrome.tabs.query({'active': true, lastFocusedWindow: true},
       function (tabs) {
-        resolve(tabs[0].url)
+        resolve(tabs[0].url);
       })
     });
   }
@@ -54,6 +54,14 @@ myApp.factory('UtilsFactory', function ($http, $q){
     dom.querySelector('[itemprop=streetAddress]') ? value = 'building=' + dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "")[0] : value = '';
     
     return value;
+  }
+  
+  //want to check if any data is recieved so we do not request records
+  //from DOH
+  UtilsFactory.checkForData = function(details){
+    for (var detail in details){
+      if (details[detail].length !== 0) return true;
+    } return false;
   }
   
   return UtilsFactory;

@@ -6,7 +6,7 @@ myApp.factory('DOHFactory', function ($http, UtilsFactory){
   var dbGet = 'https://data.cityofnewyork.us/resource/xx67-kt59.json?';
   var token = { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} };
   var queryStr;
-  
+
   DOHFactory.getCache = function () {
     return cache;
   }
@@ -91,8 +91,7 @@ myApp.factory('DOHFactory', function ($http, UtilsFactory){
         buildingNum: UtilsFactory.getRestaurantBuilding(dom),
         phone: UtilsFactory.getRestaurantPhone(dom)
       }
-      console.log(yelpDetails)
-      
+      if (!UtilsFactory.checkForData(yelpDetails)) return [];
       return accessRecords(yelpDetails);
     });
   }
