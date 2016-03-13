@@ -51,7 +51,7 @@ myApp.factory('UtilsFactory', function ($http, $q){
   UtilsFactory.getRestaurantBuilding = function (dom){
     var value; 
     
-    dom.querySelector('[itemprop=streetAddress]') ? value = 'building=' + dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "")[0] : value = '';
+    dom.querySelector('[itemprop=streetAddress]') ? value = 'building=' + dom.querySelector('[itemprop=streetAddress]').innerText.replace(/[()-\s+]/g, "")[0] : value = '';
     
     return value;
   }
