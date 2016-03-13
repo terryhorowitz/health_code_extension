@@ -1,16 +1,12 @@
-myApp.factory('DOHFactory', function ($http){
+myApp.factory('DOHFactory', function ($http, UtilsFactory){
   var DOHFactory = {};
+  
   var resultCache = [];
   var r = new Range();
   var dbGet = 'https://data.cityofnewyork.us/resource/xx67-kt59.json?';
   var token = { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} };
-  var queryStr, apostrophe, phone, zip, name, buildingNum;
-  
-  function changeDateFormat(array){
-    array.forEach(function(e){
-      e.grade_date = new Date(e.grade_date);
-    })
-  }
+  var queryStr, phone, zip, name, buildingNum;
+
   
   //try all combinations for search query. 
   //Results can be hard to match with DOH database-
@@ -74,45 +70,34 @@ myApp.factory('DOHFactory', function ($http){
       return matches;
     });
   }
-  
-  function checkCombinationOfTwo (data, param1, param2){
-    if (!data[param1] || !data[param2]) {};
-    return $http.get(dbGet + data[param1] + '&' + data[param2], token);
-  }
-  
-  var promiseForTabUrl = function () {
-    return new Promise(function (resolve, reject) {
-      chrome.tabs.query({'active': true, lastFocusedWindow: true},
-      function (tabs) {
-        //need to check first if url is for yelp!!!
-        resolve(tabs[0].url)
-      })
-    });
-  }
       
   DOHFactory.getRestaurantDetails = function(){
     
-    return promiseForTabUrl()
+    return UtilsFactory.promiseForTabUrl()
     .then(function (url){
       return $http.get(url)
     })
     .then(function(dom){
-      //specific 
-      apostrophe = new RegExp("[\'" + String.fromCharCode(8217) + "]", "g");
+      var apostrophes = new RegExp("[\'" + String.fromCharCode(8217) + "]", "g");
+      
       dom = r.createContextualFragment(dom.data);
       //Yelp pages occassionally are missing restaurant information-
       //check if each exists
       
       //restuarant zip
-      dom.querySelector('[itemprop=postalCode]') ? zip = dom.querySelector('[itemprop=postalCode]').innerText : zip = null;
+//      dom.querySelector('[itemprop=postalCode]') ? zip = dom.querySelector('[itemprop=postalCode]').innerText : zip = null;
       //restuarant name
-      dom.querySelector('.biz-page-title') ? name = dom.querySelector('.biz-page-title').innerText.trim().replace(/\s+/g, '%20').replace( apostrophe, '%27') : name = null;
+//      dom.querySelector('.biz-page-title') ? name = dom.querySelector('.biz-page-title').innerText.trim().replace(/\s+/g, '%20').replace( apostrophes, '%27') : name = null;
       //restuarant building number
-      dom.querySelector('[itemprop=streetAddress]') ? buildingNum = dom.querySelector('[itemprop=streetAddress]').innerText.match(/\d+/g) : buildingNum = [null];
+//      dom.querySelector('[itemprop=streetAddress]') ? buildingNum = dom.querySelector('[itemprop=streetAddress]').innerText.match(/\d+/g) : buildingNum = [null];
       //restuarant phone number
-      dom.querySelector('.biz-phone') ? phone = dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "") : phone = null;
-      
-      return [zip, name, Number(buildingNum[0]), phone];
+//      dom.querySelector('.biz-phone') ? phone = dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "") : phone = null;
+      return {
+        postalCode: UtilsFactory.retrieveFromDOM('postalCode', dom),
+        name: UtilsFactory.retrieveFromDOM('dba', dom).trim().replace(/\s+/g, '%20').replace(apostrophes, '%27'),
+        buildingNum: UtilsFactory.retrieveFromDOM('streetAddress', dom).match(/\d+/g)[0],
+        phone: UtilsFactory.retrieveFromDOM('phone', dom).replace(/[()-\s+]/g, "")
+      }
     })
   }
   
