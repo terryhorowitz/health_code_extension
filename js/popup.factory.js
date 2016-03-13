@@ -85,17 +85,6 @@ myApp.factory('DOHFactory', function ($http, UtilsFactory){
       var apostrophes = new RegExp("[\'" + String.fromCharCode(8217) + "]", "g");
       
       dom = r.createContextualFragment(dom.data);
-      //Yelp pages occassionally are missing restaurant information-
-      //check if each exists
-      
-      //restuarant zip
-//      dom.querySelector('[itemprop=postalCode]') ? zip = dom.querySelector('[itemprop=postalCode]').innerText : zip = null;
-      //restuarant name
-//      dom.querySelector('.biz-page-title') ? name = dom.querySelector('.biz-page-title').innerText.trim().replace(/\s+/g, '%20').replace( apostrophes, '%27') : name = null;
-      //restuarant building number
-//      dom.querySelector('[itemprop=streetAddress]') ? buildingNum = dom.querySelector('[itemprop=streetAddress]').innerText.match(/\d+/g) : buildingNum = [null];
-      //restuarant phone number
-//      dom.querySelector('.biz-phone') ? phone = dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "") : phone = null;
       var yelpDetails = {
         zip: 'zipcode=' + UtilsFactory.retrieveFromDOM('postalCode', dom),
         name: 'dba=' + UtilsFactory.retrieveFromDOM('dba', dom).trim().replace(/\s+/g, '%20').replace(apostrophes, '%27'),

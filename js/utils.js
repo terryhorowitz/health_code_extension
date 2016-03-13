@@ -1,4 +1,4 @@
-myApp.factory('UtilsFactory', function ($http){
+myApp.factory('UtilsFactory', function ($http, $q){
   var UtilsFactory = {};
   var dbGet = 'https://data.cityofnewyork.us/resource/xx67-kt59.json?';
   var token = { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} };
@@ -15,7 +15,7 @@ myApp.factory('UtilsFactory', function ($http){
   }
   
   UtilsFactory.promiseForYelpUrl = function () {
-    return new Promise(function (resolve, reject) {
+    return $q(function (resolve, reject) {
       chrome.tabs.query({'active': true, lastFocusedWindow: true},
       function (tabs) {
         //need to check first if url is for yelp!!!

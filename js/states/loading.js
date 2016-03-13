@@ -5,7 +5,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('loading', {
       url: "/loading",
-      controller: "PageController",
+      controller: "LoadingController",
       templateUrl: "../../templates/loading.html"
     });
 });
