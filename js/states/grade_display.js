@@ -1,8 +1,8 @@
 myApp.config(function($stateProvider) {
   
   $stateProvider
-    .state('load-grade', {
-      url: "/load-grade",
+    .state('grade', {
+      url: "/grade",
       controller: function(DOHFactory, $scope){
         var details = DOHFactory.getCache();
         var resultPage = angular.element(document.querySelector('#results'));

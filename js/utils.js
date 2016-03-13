@@ -1,5 +1,7 @@
-myApp.factory('UtilsFactory', function (){
+myApp.factory('UtilsFactory', function ($http){
   var UtilsFactory = {};
+  var dbGet = 'https://data.cityofnewyork.us/resource/xx67-kt59.json?';
+  var token = { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} };
   
   UtilsFactory.changeDateFormat = function (array){
     array.forEach(function(e){
@@ -7,12 +9,12 @@ myApp.factory('UtilsFactory', function (){
     });
   }
     
-  UtilsFactory.checkCombinationOfTwo = function (data, param1, param2){
-    if (!data[param1] || !data[param2]) {};
-    return $http.get(dbGet + data[param1] + '&' + data[param2], token);
+  UtilsFactory.checkCombinationOfTwo = function (param1, param2){
+    if (!param1 || !param2) {};
+    return $http.get(dbGet + param1 + '&' + param2, token);
   }
   
-  UtilsFactory.promiseForTabUrl = function () {
+  UtilsFactory.promiseForYelpUrl = function () {
     return new Promise(function (resolve, reject) {
       chrome.tabs.query({'active': true, lastFocusedWindow: true},
       function (tabs) {
