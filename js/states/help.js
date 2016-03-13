@@ -9,7 +9,7 @@ myApp.config(function($stateProvider) {
                     '<div class="detail">-This chrome extension only works with YELP restaurant searches</div><br/>' +
                     '<div class="detail">-You may not be looking at a restaurant</div><br/>' +
                     '<div class="detail">-This restaurant has not yet recieved a grade</div><br/>' +
-                    '<div class="detail">-Our search criteria does not match Dept. Of Health records</div><br/>' +
+                    '<div class="detail">-Search criteria does not match Dept. Of Health records</div><br/>' +
                   '<div>' +
                 '</div>'
     })

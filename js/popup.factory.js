@@ -2,7 +2,7 @@ myApp.factory('DOHFactory', function ($http, UtilsFactory){
   var DOHFactory = {};
   
   var cache = [];
-  var r = new Range();
+  var parse = new DOMParser();
   var dbGet = 'https://data.cityofnewyork.us/resource/xx67-kt59.json?';
   var token = { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} };
   var queryStr;
@@ -84,7 +84,7 @@ myApp.factory('DOHFactory', function ($http, UtilsFactory){
     .then(function(dom){
       var apostrophes = new RegExp("[\'" + String.fromCharCode(8217) + "]", "g");
       
-      dom = r.createContextualFragment(dom.data);
+      dom = parse.parseFromString(dom.data, "text/html");
       var yelpDetails = {
         zip: UtilsFactory.getRestaurantZip(dom),
         name: UtilsFactory.getRestaurantName(dom),

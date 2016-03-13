@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
 
-  "name": "DOH Violation Checker",
+  "name": "Letter Grade",
   "description": "This extension finds the DOH letter grade corresponding to NYC restaurants based on your Yelp search",
   "version": "1.0",
   "browser_action": {
     "default_icon": "images/icon.png",
     "default_popup": "templates/index.html",
-    "default_title": "Health Code"
+    "default_title": "Letter Grade"
   },
   "content_scripts": [{
     "js": ["js/app.js"],
