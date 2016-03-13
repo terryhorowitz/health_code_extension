@@ -1,0 +1,17 @@
+<!--          details             -->
+<div class="details">
+  <li class="item">Name:</li>
+  <li class="detail">{{ records[0].dba }}</li>
+  <br/>
+  <li class="item">Grade:</li>
+  <li class="detail">{{ records[0].grade }}</li>
+  <br/>
+  <li class="item">Inspection Date:</li>
+  <li class="detail">{{ records[0].grade_date |  date }}</li>
+  <br/>
+  <li class="item">Violations:</li>
+  <li class="detail">{{ records[0].violation_description }}</li>
+  <br/>
+  <br/>
+  <li class="item btn" ui-sref="history">Show Inspection History</li>
+</div>

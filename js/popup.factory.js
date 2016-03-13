@@ -1,33 +1,39 @@
-myApp.factory('DOHFactory', function ($http){
+myApp.factory('DOHFactory', function ($http, UtilsFactory){
   var DOHFactory = {};
+  
+  var cache = [];
   var r = new Range();
   var dbGet = 'https://data.cityofnewyork.us/resource/xx67-kt59.json?';
   var token = { headers: { "X-App-Token": "jYAyZ2aqnFDAzQfLdfYWQ5DZW"} };
-  var queryStr, apostrophe, phone, zip, name, buildingNum;
+  var queryStr;
   
+  DOHFactory.getCache = function () {
+    return cache;
+  }
+
   //try all combinations for search query. 
   //Results can be hard to match with DOH database-
-  DOHFactory.accessRecords = function(query){
-    //first check if there is a match with all data
-    queryStr = dbGet + query.join('&');
+  var accessRecords = function(query){
+    //first check if there is a match with all retrieved data
+    queryStr = dbGet + query.zip + '&' + query.name + '&' + query.buildingNum + '&' + query.phone + '&';
     return $http.get(queryStr, token)
     .then(function(records){
       if (!records.data.length) {
-        queryStr = dbGet + query[0] + '&' + query[1] + '&' + query[2];
+        queryStr = dbGet + query.zip + '&' + query.name + '&' + query.phone;
         return $http.get(queryStr, token)
       }
         else return records;
     })
     .then(function(records){
       if (!records.data.length) {
-        queryStr = dbGet + query[0] + '&' + query[1] + '&' + query[3];
+        queryStr = dbGet + query.zip + '&' + query.name + '&' + query.buildingNum;
         return $http.get(queryStr, token)
       }
         else return records;
     })
     .then(function(records){
       if (!records.data.length) {
-        queryStr = dbGet + query[1] + '&' + query[2] + '&' + query[3];
+        queryStr = dbGet + query.name + '&' + query.buildingNum + '&' + query.phone;
         return $http.get(queryStr, token)
       }
         else return records;
@@ -35,73 +41,59 @@ myApp.factory('DOHFactory', function ($http){
     //combinations of two checked in order of likelihood of returning a correct match
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(query, 0,1);
+        return UtilsFactory.checkCombinationOfTwo(query.zip, query.name);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(query, 1,3);
+        return UtilsFactory.checkCombinationOfTwo(query.name, query.phone);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(query, 1,2);
+        return UtilsFactory.checkCombinationOfTwo(query.name, query.buildingNum);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(query, 2,3);
+        return UtilsFactory.checkCombinationOfTwo(query.phone, query.zip);
       } else return records;
     })
     .then(function(records){
       if (!records.data.length){
-        return checkCombinationOfTwo(query, 0,3);
+        return UtilsFactory.checkCombinationOfTwo(query.phone, query.buildingNum);
       } else return records;
     })
     .then(function(records){
-      return records.data;
-    });
-  }
-  
-  function checkCombinationOfTwo (data, param1, param2){
-    if (!data[param1] || !data[param2]) {};
-    return $http.get(dbGet + data[param1] + '&' + data[param2], token);
-  }
-  
-  var promiseForTabUrl = function () {
-    return new Promise(function (resolve, reject) {
-      chrome.tabs.query({'active': true, lastFocusedWindow: true},
-      function (tabs) {
-        //need to check first if url is for yelp!!!
-        resolve(tabs[0].url)
-      })
+      matches = records.data.filter(function(e){
+        return e.grade;
+      });
+      
+      UtilsFactory.changeDateFormat(matches);
+      cache = angular.copy(matches);
+      return cache;
     });
   }
       
   DOHFactory.getRestaurantDetails = function(){
     
-    return promiseForTabUrl()
+    return UtilsFactory.promiseForYelpUrl()
     .then(function (url){
       return $http.get(url)
     })
     .then(function(dom){
-      //specific 
-      apostrophe = new RegExp("[\'" + String.fromCharCode(8217) + "]", "g");
+      var apostrophes = new RegExp("[\'" + String.fromCharCode(8217) + "]", "g");
+      
       dom = r.createContextualFragment(dom.data);
-      //Yelp pages occassionally are missing restaurant information-
-      //check if each exists
+      var yelpDetails = {
+        zip: 'zipcode=' + UtilsFactory.retrieveFromDOM('postalCode', dom),
+        name: 'dba=' + UtilsFactory.retrieveFromDOM('dba', dom).trim().replace(/\s+/g, '%20').replace(apostrophes, '%27'),
+        buildingNum: 'building=' + UtilsFactory.retrieveFromDOM('streetAddress', dom).match(/\d+/g)[0],
+        phone: 'phone=' + UtilsFactory.retrieveFromDOM('phone', dom).replace(/[()-\s+]/g, "")
+      }
       
-      //restuarant zip
-      dom.querySelector('[itemprop=postalCode]') ? zip = dom.querySelector('[itemprop=postalCode]').innerText : zip = null;
-      //restuarant name
-      dom.querySelector('.biz-page-title') ? name = dom.querySelector('.biz-page-title').innerText.trim().replace(/\s+/g, '%20').replace( apostrophe, '%27') : name = null;
-      //restuarant building number
-      dom.querySelector('[itemprop=streetAddress]') ? buildingNum = dom.querySelector('[itemprop=streetAddress]').innerText.match(/\d+/g) : buildingNum = [null];
-      //restuarant phone number
-      dom.querySelector('.biz-phone') ? phone = dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "") : phone = null;
-      
-      return [zip, name, Number(buildingNum[0]), phone];
-    })
+      return accessRecords(yelpDetails);
+    });
   }
 
   return DOHFactory

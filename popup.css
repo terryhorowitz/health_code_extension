@@ -11,7 +11,7 @@
   overflow: scroll;
 }
 
-[ng-click] { 
+[ui-sref] { 
   cursor: pointer;
 }
 
@@ -62,6 +62,20 @@
 
 .detail {
   font-size: 13px;
+}
+
+.btn{
+  font-weight: bolder; 
+  font-size: 22px;
+}
+
+.btn:hover{
+  color: dimgray;
+}
+
+#history {
+  max-width: 250px;
+  max-height: 350px;
 }
 
 #not-found {

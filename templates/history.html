@@ -1,0 +1,9 @@
+<!--          History             -->
+<div id="history" class="details">
+  <div ng-repeat="record in records">
+    <li class="detail">Date: {{ record.grade_date | date }}</li>
+    <li class="item">Grade: {{ record.grade }}</li>
+    <br/>
+  </div>
+  <li id="go-back" class="item btn" ui-sref="details">back</li>
+</div>
