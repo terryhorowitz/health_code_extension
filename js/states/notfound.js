@@ -2,6 +2,9 @@ myApp.config(function($stateProvider) {
   $stateProvider
     .state('notfound', {
       url: "/notfound",
-      templateUrl: "../../templates/notfound.html"
-    })
+      template: '<div id="not-found">' +
+                  '<img src="/../images/not-found.png">' +
+                  '<div>restaurant information not found!</div>' +
+                '</div>'
+    });
 });
