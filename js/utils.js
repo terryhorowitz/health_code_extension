@@ -18,21 +18,42 @@ myApp.factory('UtilsFactory', function ($http, $q){
     return $q(function (resolve, reject) {
       chrome.tabs.query({'active': true, lastFocusedWindow: true},
       function (tabs) {
-        //need to check first if url is for yelp!!!
         resolve(tabs[0].url)
       })
     });
   }
   
-  UtilsFactory.retrieveFromDOM = function (detail, dom) {
-    var returnVal;
-    if (detail === "phone"){
-      dom.querySelector('.biz-phone') ? returnVal = dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "") : returnVal = '';
-    } else {
-      dom.querySelector('[itemprop=' + detail + ']') ? returnVal = dom.querySelector('[itemprop=' + detail + ']').innerText : returnVal = '';
-    }
+  UtilsFactory.getRestaurantPhone = function (dom){
+    var value;
     
-    return returnVal;
+    dom.querySelector('.biz-phone') ? value = 'phone=' + dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "") : value = '';
+    
+    return value;
+  }
+  
+  UtilsFactory.getRestaurantZip = function (dom){
+    var value;
+    
+    dom.querySelector('[itemprop=postalCode]') ? value = 'zipcode=' + dom.querySelector('[itemprop=postalCode]').innerText : value = '';
+    
+    return value;
+  }
+  
+  UtilsFactory.getRestaurantName = function (dom){
+    var value;
+    var apostrophes = new RegExp("[\'" + String.fromCharCode(8217) + "]", "g");
+    
+    dom.querySelector('.biz-page-title') ? value = 'dba=' + dom.querySelector('.biz-page-title').innerText.trim().replace(/\s+/g, '%20').replace(apostrophes, '%27') : value = '';
+    
+    return value;
+  }
+  
+  UtilsFactory.getRestaurantBuilding = function (dom){
+    var value; 
+    
+    dom.querySelector('[itemprop=streetAddress]') ? value = 'building=' + dom.querySelector('.biz-phone').innerText.replace(/[()-\s+]/g, "")[0] : value = '';
+    
+    return value;
   }
   
   return UtilsFactory;

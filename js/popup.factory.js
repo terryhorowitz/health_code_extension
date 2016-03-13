@@ -15,7 +15,7 @@ myApp.factory('DOHFactory', function ($http, UtilsFactory){
   //Results can be hard to match with DOH database-
   var accessRecords = function(query){
     //first check if there is a match with all retrieved data
-    queryStr = dbGet + query.zip + '&' + query.name + '&' + query.buildingNum + '&' + query.phone + '&';
+    queryStr = dbGet + query.zip + '&' + query.name + '&' + query.buildingNum + '&' + query.phone ;
     return $http.get(queryStr, token)
     .then(function(records){
       if (!records.data.length) {
@@ -86,11 +86,12 @@ myApp.factory('DOHFactory', function ($http, UtilsFactory){
       
       dom = r.createContextualFragment(dom.data);
       var yelpDetails = {
-        zip: 'zipcode=' + UtilsFactory.retrieveFromDOM('postalCode', dom),
-        name: 'dba=' + UtilsFactory.retrieveFromDOM('dba', dom).trim().replace(/\s+/g, '%20').replace(apostrophes, '%27'),
-        buildingNum: 'building=' + UtilsFactory.retrieveFromDOM('streetAddress', dom).match(/\d+/g)[0],
-        phone: 'phone=' + UtilsFactory.retrieveFromDOM('phone', dom).replace(/[()-\s+]/g, "")
+        zip: UtilsFactory.getRestaurantZip(dom),
+        name: UtilsFactory.getRestaurantName(dom),
+        buildingNum: UtilsFactory.getRestaurantBuilding(dom),
+        phone: UtilsFactory.getRestaurantPhone(dom)
       }
+      console.log(yelpDetails)
       
       return accessRecords(yelpDetails);
     });

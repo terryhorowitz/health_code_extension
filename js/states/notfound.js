@@ -5,6 +5,7 @@ myApp.config(function($stateProvider) {
       template: '<div id="not-found">' +
                   '<img src="/../images/not-found.png">' +
                   '<div>restaurant information not found!</div>' +
-                '</div>'
+                '</div>' +
+                '<div id="help" class="btn" ui-sref="help">help</div>'
     });
 });
