@@ -1,16 +1,20 @@
 
-myApp.controller("PageController", function ($scope, DOHFactory, $state) {
-
-  $scope.loading = true;
-
+myApp.controller("PageController", function (DOHFactory, $state) {
+  
 //  var getDOHInfo = function (searchParams) {
 //    DOHFactory.accessRecords(searchParams)
     DOHFactory.getRestaurantDetails()
     .then(function(restaurantMatches){
+      console.log('here', restaurantMatches)
       if (!restaurantMatches.length){
         $state.go('notfound');
-      } else $state.go('grade');
+      } else {
+        console.log('hello')
+        debugger;
+        $state.go('notfound');
+      }
     });
+
 //  }
     
 //  DOHFactory.getRestaurantDetails()
